@@ -1,0 +1,73 @@
+.ql-toolbar.ql-snow {
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.ql-container.ql-snow {
+  border: 0;
+  color: white;
+}
+.ql-editor {
+  padding-bottom: 2rem;
+}
+.ql-editor::-webkit-scrollbar {
+  display: none;
+}
+
+.ql-snow .ql-picker {
+  color: white;
+}
+
+.ql-snow .ql-list > svg {
+  color: white;
+}
+.ql-stroke {
+  stroke: white !important;
+}
+
+.ql-fill {
+  fill: white !important;
+}
+.ql-thin {
+  stroke-width: 1px;
+}
+.ql-snow .ql-picker-options {
+  background-color: #181818;
+}
+.ql-formats > button.ql-active svg > path.ql-fill {
+  fill: #312eb5 !important;
+}
+.ql-formats > button.ql-active svg > rect.ql-fill {
+  fill: #312eb5 !important;
+}
+.ql-formats > button.ql-active svg > rect.ql-stroke {
+  stroke: #312eb5 !important;
+}
+.ql-formats > button.ql-active svg > line.ql-fill {
+  fill: #312eb5 !important;
+}
+.ql-formats > button.ql-active svg > line.ql-stroke {
+  stroke: #312eb5 !important;
+}
+
+.ql-formats > button.ql-active > svg > path.ql-stroke {
+  stroke: #312eb5 !important;
+}
+
+@page {
+  margin: 1in;
+}
+@media print {
+  body {
+    background: none;
+  }
+  .container .ql-editor {
+    padding: 0;
+    margin: 0;
+    width: 6.5in;
+    height: 9in;
+  }
+  .container .ql-editor.ql-snow {
+    display: none;
+  }
+}
