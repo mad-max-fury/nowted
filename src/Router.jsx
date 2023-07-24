@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Navigate,
+  Outlet,
   Route,
   RouterProvider,
   createBrowserRouter,
@@ -57,10 +58,12 @@ const router = createBrowserRouter(
         }
       >
         <Route index element={<Home />} />
-        <Route path={"favourites"} element={<Favourites />} />
+        <Route path={"favorites"} element={<Favourites />} />
         <Route path={"trash"} element={<Trash />} />
-        <Route path={"archieves"} element={<ArchivedNotes />} />
+        <Route path={"archives"} element={<ArchivedNotes />} />
         <Route path={"settings"} element={<Settings />} />
+        <Route path={"folders"} element={<div>Hello man</div>} />
+        <Route path={"folders/:id"} element={<div>particular folder</div>} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </>

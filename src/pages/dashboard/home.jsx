@@ -5,8 +5,8 @@ import ViewNote from "../../components/modules/dashboard/viewNote";
 const Home = () => {
   return (
     <div className="flex w-full">
-      <NoteList />
-      <ViewNote />
+      {/* <NoteList />
+      <ViewNote /> */}
     </div>
   );
 };

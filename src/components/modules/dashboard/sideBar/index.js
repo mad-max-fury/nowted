@@ -10,6 +10,8 @@ import {
   FiStar,
 } from "react-icons/fi";
 import { FaUserCog } from "react-icons/fa";
+import { AiOutlineFieldTime } from "react-icons/ai";
+import { PiFolders } from "react-icons/pi";
 import CategoryMaker from "../categoryMaker";
 import CreateNote from "../createNote";
 import SearchInput from "../search";
@@ -27,7 +29,7 @@ const SideBar = () => {
   };
 
   return (
-    <aside className="h-screen w-full xs:max-w-[350px] sticky top-0 left-0">
+    <aside className="h-screen w-full xs:max-w-[350px] sticky top-0 left-0 bg-[#101011]">
       <nav className="relative flex flex-col w-full h-full">
         <div className="sticky top-0 z-30 h-fit w-full px-[20px] pb-[20px] pt-[30px] text-white">
           <div className="flex items-center justify-between w-full">
@@ -64,31 +66,55 @@ const SideBar = () => {
         </div>
         <div className="scrollbar mt-[30px] flex h-full w-full flex-col gap-[30px] pb-[30px] overflow-y-auto">
           <CategoryMaker
-            category="Recents"
+            category=""
             quickNavigations={[
-              { Icon: FiFileText, heading: "Reflection on the Month of June" },
-              { Icon: FiFileText, heading: "Project proposal" },
-              { Icon: FiFileText, heading: "Travel itinerary" },
+              {
+                Icon: AiOutlineFieldTime,
+                heading: "Recents",
+                path: "/dashboard",
+              },
+              {
+                Icon: PiFolders,
+                heading: "All Folders",
+                path: "/dashboard/folders",
+              },
+              {
+                Icon: FiStar,
+                heading: "Favorites",
+                path: "/dashboard/favorites",
+              },
+              {
+                Icon: FiArchive,
+                heading: "Archived Notes",
+                path: "/dashboard/archives",
+              },
+              { Icon: FiTrash, heading: "Trash", path: "/dashboard/trash" },
+              {
+                Icon: FaUserCog,
+                heading: "Profile Settings",
+                path: "/dashboard/settings",
+              },
             ]}
           />
           <CategoryMaker
             category="Folders"
             CategoryIcon={AiOutlineFolderAdd}
             quickNavigations={[
-              { Icon: FiFolder, heading: "Personal" },
-              { Icon: FiFolder, heading: "Work" },
-              { Icon: FiFolder, heading: "Travel" },
-              { Icon: FiFolder, heading: "Events" },
-              { Icon: FiFolder, heading: "Finances" },
-            ]}
-          />
-          <CategoryMaker
-            category="More"
-            quickNavigations={[
-              { Icon: FiStar, heading: "Favorites" },
-              { Icon: FiTrash, heading: "Trash" },
-              { Icon: FiArchive, heading: "Archived Notes" },
-              { Icon: FaUserCog, heading: "Profile Settings" },
+              {
+                Icon: FiFolder,
+                heading: "Personal",
+                path: "/dashboard/folders/personal",
+              },
+              {
+                Icon: FiFolder,
+                heading: "Work",
+                path: "/dashboard/folders/pork",
+              },
+              {
+                Icon: FiFolder,
+                heading: "Travel",
+                path: "/dashboard/folders/travel",
+              },
             ]}
           />
         </div>
