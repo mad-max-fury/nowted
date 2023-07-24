@@ -11,7 +11,7 @@ export const validateInput = (value, label, type) => {
       return "Password must include at least one uppercase letter";
     }
     if (!/[!@#$%^&*]/.test(value)) {
-      return "Password must include at least one special character";
+      return "Password must include at least one special character(`!@#$%^&*`)";
     }
   }
 

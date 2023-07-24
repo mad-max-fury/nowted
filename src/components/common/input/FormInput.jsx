@@ -1,61 +1,40 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
-import { validateInput } from "../../../utils/helpers";
 
-const FormInput = ({
-  type,
-  name,
-  label,
-  placeholder,
-  val,
-  setChange = () => null,
-}) => {
-  const {
-    register,
-    formState: { errors },
-    setValue,
-    clearErrors,
-  } = useFormContext();
-
-  const handleInputChange = (e) => {
-    const { value } = e.target;
-    setValue(name, value, { shouldValidate: true });
-    setChange(e);
-  };
-
-  const handleInputFocus = () => {
-    clearErrors(name);
-  };
+const FormInput = ({ type, name, label, placeholder }) => {
+  const { formState, register } = useFormContext();
 
   return (
     <div
       className={`relative flex flex-col items-start justify-start w-full ${
-        errors[name] ? "mb-8" : "mb-4"
+        formState.errors[name] ? "mb-8" : "mb-4"
       } h-fit bg-primary isolate`}
     >
-      <label htmlFor={name} className="text-white ">
+      <label htmlFor={name} className="text-white">
         {label}
       </label>
       <input
         type={type}
         id={name}
-        value={val}
         name={name}
         placeholder={placeholder}
-        {...register(name, { validate: () => validateInput(val, label, type) })}
-        onChange={handleInputChange}
-        onFocus={handleInputFocus}
-        className={`w-full p-2 mt-1 z-1 text-white bg-primary ring-1 outline-none rounded  ${
-          errors[name] ? " ring-red-500" : "ring-white"
+        {...register(name)}
+        className={`w-full p-2 mt-1 z-1  bg-primary ring-1 outline-none rounded  transition-all duration-[0.3s] ease-out  ${
+          formState.errors[name]
+            ? " ring-red-500 text-red-500"
+            : "ring-white text-white"
         }`}
       />
 
+      {/* Adjusted class name and condition */}
       <span
-        className={`text-red-500 z-[-1] absolute w-full left-0 transition-all ease-in-out duration-[0.3s] ${
-          errors[name] ? "-bottom-8" : "bottom-[.5rem]"
+        className={`text-red-500 bg-primary absolute w-full left-0 transition-all ease-in-out duration-[0.3s] ${
+          formState.errors[name]
+            ? "top-[calc(100%_+_0.3rem)]"
+            : "top-[50%]  z-[-1]"
         } `}
       >
-        {errors[name] && errors[name].message}
+        {formState.errors[name]?.message}
       </span>
     </div>
   );

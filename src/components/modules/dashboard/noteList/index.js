@@ -16,7 +16,6 @@ const NoteList = () => {
           <button
             className="flex items-center gap-1 h-[2rem]  mr-4 group"
             title="Edit Folder Actions"
-            role="button"
             onClick={() => setShowEditActions(!showEditActions)}
             tabIndex={0}
           >

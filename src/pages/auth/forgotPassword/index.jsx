@@ -3,68 +3,75 @@ import { FormProvider, useForm } from "react-hook-form";
 import FormInput from "../../../components/common/input/FormInput";
 import CButton from "../../../components/common/button";
 import { Link } from "react-router-dom";
+import { yupResolver } from "@hookform/resolvers/yup";
+import Auth from "../../../utils/schemas/auth";
+import { useForgotPassword } from "../../../react-query/auth/useForgotPassword";
 
 const ResetPassword = () => {
-  const methods = useForm();
-  const [toggleCheckMail, setToggleCheckMail] = useState(false);
-  const [values, setValues] = useState({ email: "" });
+  const methods = useForm({
+    mode: "onChange",
+    resolver: yupResolver(Auth.authForgotPassword),
+  });
+  const [email, setEmail] = useState("");
+  const forgotPasswordMutation = useForgotPassword();
   const onSubmit = (data) => {
-    console.log(data);
-    setToggleCheckMail(true);
+    if (typeof data.email === "string") {
+      sendEmail(data.email);
+    }
   };
-
+  function sendEmail(email) {
+    forgotPasswordMutation.mutate({ email });
+    setEmail(email);
+  }
   return (
     <>
-      {!toggleCheckMail ? (
-        <>
-          <div className="flex flex-col w-full gap-4 mb-4">
-            <h1 className="text-center text-[#f5f5f5] text-[clamp(18px,5vw,32px)] font-bold leading-9">
-              Forgot <span className="text-tert">Password</span>
-            </h1>
-            <div className="max-w-[89%] mx-auto text-center text-gray-300 text-[16px] font-normal leading-normal">
-              No worries, we'll send you reset instructions
+      {!forgotPasswordMutation.isSuccess ? (
+        <FormProvider {...methods}>
+          <>
+            <div className="flex flex-col w-full gap-4 mb-4">
+              <h1 className="text-center text-[#f5f5f5] text-[clamp(18px,5vw,32px)] font-bold leading-9">
+                Forgot <span className="text-tert">Password</span>
+              </h1>
+              <div className="max-w-[89%] mx-auto text-center text-gray-300 text-[16px] font-normal leading-normal">
+                No worries, we'll send you reset instructions
+              </div>
             </div>
-          </div>
-          <FormProvider {...methods}>
             <form onSubmit={methods.handleSubmit(onSubmit)} className="w-full">
               <FormInput
                 type="email"
                 name="email"
                 label="Email*"
-                val={values.email}
-                setChange={(e) =>
-                  setValues((prev) => ({
-                    ...prev,
-                    [e.target.name]: e.target.value,
-                  }))
-                }
                 placeholder="Enter your email address"
               />
               <div className="w-full mt-6 h-fit">
                 <button
-                  type="submit"
+                  type={methods.formState.isValid ? "submit" : "button"}
                   disabled={!methods.formState.isValid}
-                  className="rounded cursor-pointer bg-tert px-8 py-2 text-base leading-6 w-full text-white transition-all duration-[0.2s] hover:scale-[1.01]"
+                  className={`rounded cursor-pointer ${
+                    !methods.formState.isValid
+                      ? " bg-blue-600 opacity-25 hover:cursor-not-allowed"
+                      : "bg-tert hover:scale-[1.01] "
+                  } px-8 py-2 text-base leading-6 w-full text-white transition-all duration-[0.2s] `}
                 >
-                  Get Password reset link
+                  Get reset password link
                 </button>
               </div>
             </form>
-          </FormProvider>
-          <div className="inline-flex items-start justify-center gap-1 mt-6 ">
-            <Link
-              to="/"
-              className="flex items-center justify-center font-medium leading-tight text-slate-100 text-[clamp(14px,5vw,20px)]"
-            >
-              Back to
-              <span className="items-center ml-[8px] justify-center text-tert underline font-bold">
-                Login
-              </span>
-            </Link>
-          </div>
-        </>
+            <div className="inline-flex items-start justify-center gap-1 mt-6 ">
+              <Link
+                to="/"
+                className="flex items-center justify-center font-medium leading-tight text-slate-100 text-[clamp(14px,5vw,20px)]"
+              >
+                Back to
+                <span className="items-center ml-[8px] justify-center text-tert underline font-bold">
+                  Login
+                </span>
+              </Link>
+            </div>
+          </>
+        </FormProvider>
       ) : (
-        <CheckMailBox userEmail={values.email} />
+        <CheckMailBox userEmail={email} />
       )}
     </>
   );
@@ -73,17 +80,19 @@ const ResetPassword = () => {
 export default ResetPassword;
 
 const CheckMailBox = ({ userEmail }) => {
+  const forgotPasswordMutation = useForgotPassword();
   const [resending, setResending] = useState(false);
   const [seconds, setSeconds] = useState(60);
-
   useEffect(() => {
-    if (resending) {
+    if (forgotPasswordMutation.isSuccess) {
+      setResending(true);
       const interval = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [resending]);
+    setResending(false);
+  }, [forgotPasswordMutation.isSuccess]);
   useEffect(() => {
     if (seconds === 0) {
       setResending(false);
@@ -93,10 +102,8 @@ const CheckMailBox = ({ userEmail }) => {
   const handleOpenEmailApp = () => {
     window.location.href = `mailto:${userEmail}`;
   };
-  const handleResendMail = async () => {
-    try {
-      setResending(true);
-    } catch (error) {}
+  const handleResendMail = () => {
+    return forgotPasswordMutation.mutate({ email: userEmail });
   };
   return (
     <div className="flex flex-col items-center justify-center ">
@@ -127,7 +134,13 @@ const CheckMailBox = ({ userEmail }) => {
       ) : (
         <p className="flex items-center justify-center gap-2 mt-6 text-base font-medium leading-tight text-slate-100">
           Didn't recieve the mail?{" "}
-          <button onClick={handleResendMail}>Click to resend</button>
+          <button
+            onClick={handleResendMail}
+            className="p-2 bg-blue-400 rounded-sm"
+          >
+            {" "}
+            Click to resend
+          </button>
         </p>
       )}
       <div className="inline-flex items-start justify-center gap-1 mt-6 ">
