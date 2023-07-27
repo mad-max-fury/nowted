@@ -5,19 +5,22 @@ import { SnackbarProvider } from "notistack";
 import { queryClient } from "./react-query/client";
 import Router from "./Router";
 import Loader from "./components/common/loader";
+import { GridContextProvider } from "./context/showGrid";
 
 function App() {
   return (
     <React.StrictMode>
-      <div className="flex App ">
-        <QueryClientProvider client={queryClient}>
-          <SnackbarProvider maxSnack={3}>
-            <Loader />
-            <Router />
-          </SnackbarProvider>
-          <ReactQueryDevtools />
-        </QueryClientProvider>
-      </div>
+      <GridContextProvider>
+        <div className="flex App ">
+          <QueryClientProvider client={queryClient}>
+            <SnackbarProvider maxSnack={3}>
+              <Loader />
+              <Router />
+            </SnackbarProvider>
+            <ReactQueryDevtools />
+          </QueryClientProvider>
+        </div>
+      </GridContextProvider>
     </React.StrictMode>
   );
 }

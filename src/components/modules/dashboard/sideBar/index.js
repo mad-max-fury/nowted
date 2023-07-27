@@ -16,20 +16,15 @@ import CategoryMaker from "../categoryMaker";
 import CreateNote from "../createNote";
 import SearchInput from "../search";
 
-const SideBar = () => {
-  const createNoteRef = useRef({});
+const SideBar = ({ handleOpenModal, createNoteRef }) => {
   const [showSearch, setShowSearch] = useState(false);
-
-  const handleOpenModal = () => {
-    createNoteRef.current.openModal();
-  };
 
   const toggleSearch = () => {
     setShowSearch(!showSearch);
   };
 
   return (
-    <aside className="h-screen w-full xs:max-w-[350px] sticky top-0 left-0 bg-[#101011]">
+    <aside className="h-screen w-full xs:max-w-[320px] sticky top-0 left-0 bottom-0 bg-[#101011]">
       <nav className="relative flex flex-col w-full h-full">
         <div className="sticky top-0 z-30 h-fit w-full px-[20px] pb-[20px] pt-[30px] text-white">
           <div className="flex items-center justify-between w-full">
@@ -108,7 +103,7 @@ const SideBar = () => {
               {
                 Icon: FiFolder,
                 heading: "Work",
-                path: "/dashboard/folders/pork",
+                path: "/dashboard/folders/work",
               },
               {
                 Icon: FiFolder,

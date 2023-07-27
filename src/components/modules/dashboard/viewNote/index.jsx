@@ -1,33 +1,53 @@
-import React, { useState } from "react";
+import React, { forwardRef, useState } from "react";
 import EditNote from "../EditNote";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { FiFolder } from "react-icons/fi";
-import { IoEllipsisHorizontalCircleOutline } from "react-icons/io5";
+import {
+  IoCloseOutline,
+  IoEllipsisHorizontalCircleOutline,
+} from "react-icons/io5";
 import EditActionWidgetCreator from "./EditActionWidget";
-const ViewNote = () => {
+import useModalRef from "../../../../hooks/useModalRef";
+const ViewNote = forwardRef((_, ref) => {
   const [showEditActions, setShowEditActions] = useState(false);
+  const editNoteRef = useModalRef(ref);
+  const handleClose = () => {
+    ref?.current?.closeModal();
+  };
+
   return (
-    <div className="flex-col w-full h-screen overflow-y-auto scrollbar">
+    <dialog
+      ref={editNoteRef}
+      className="dialog backdrop:bg-[rgba(0,_0,_0,_0.5)] max-w-[900px]  overflow-y-auto scrollbar h-screen w-full bg-[#2c2b2b] border-none shadow-[0_0_1rem_rgba(0,_0,_0,_0.3)] transition-[all_0.2s_ease-in-out] isolate"
+    >
       <div className="mx-auto flex w-[90%] flex-col gap-[30px] pt-[30px]">
         <div className="flex items-center justify-between w-full ">
           <h3 className="text-[clamp(15px,_5vw,_32px)] font-semibold text-white">
             Reflection on the Month of June
           </h3>
-          <div className="relative isolate">
+          <span className="flex items-center justify-center gap-4">
+            <div className="relative z-50 isolate">
+              <button
+                type="button"
+                title={"view more actions"}
+                onClick={() => setShowEditActions(!showEditActions)}
+                className="text-[rgba(255,_255,_255,_0.6)] transition-all duration-[0.2s] hover:text-white"
+              >
+                <IoEllipsisHorizontalCircleOutline size={30} />
+              </button>
+              {showEditActions && (
+                <EditActionWidgetCreator
+                  close={() => setShowEditActions(false)}
+                />
+              )}
+            </div>
             <button
-              type="button"
-              title={"view more actions"}
-              onClick={() => setShowEditActions(!showEditActions)}
-              className="text-[rgba(255,_255,_255,_0.6)] transition-all duration-[0.2s] hover:text-white"
+              onClick={handleClose}
+              className="text-[rgba(255,_255,_255,_0.6)] p-2 shadow-lg bg-[rgba(255,255,255,0.1)] rounded-md  transition-all duration-[0.2s] hover:text-white"
             >
-              <IoEllipsisHorizontalCircleOutline size={30} />
+              <IoCloseOutline size={25} />
             </button>
-            {showEditActions && (
-              <EditActionWidgetCreator
-                close={() => setShowEditActions(false)}
-              />
-            )}
-          </div>
+          </span>
         </div>
         <div className="flex flex-col">
           <div className="flex items-center gap-4 border-b border-solid border-[rgba(255,_255,_255,_0.1)] pb-6">
@@ -50,12 +70,11 @@ const ViewNote = () => {
           </div>
         </div>
       </div>
-
       <div className="w-[90%] mx-auto">
         <EditNote />
       </div>
-    </div>
+    </dialog>
   );
-};
+});
 
 export default ViewNote;

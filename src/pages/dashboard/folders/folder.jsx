@@ -1,9 +1,9 @@
 import React from "react";
-import { useGrid } from "../../context/showGrid";
-import NotePrev from "../../components/modules/dashboard/noteList/NotePrev";
-import MiniEmptyState from "../../components/modules/dashboard/categoryMaker/emptyState";
+import NotePrev from "../../../components/modules/dashboard/noteList/NotePrev";
+import { useGrid } from "../../../context/showGrid";
+import MiniEmptyState from "../../../components/modules/dashboard/categoryMaker/emptyState";
 
-const ArchivedNotes = () => {
+const Folder = () => {
   const { gridFlow } = useGrid();
   return (
     <div
@@ -20,4 +20,4 @@ const ArchivedNotes = () => {
   );
 };
 
-export default ArchivedNotes;
+export default Folder;

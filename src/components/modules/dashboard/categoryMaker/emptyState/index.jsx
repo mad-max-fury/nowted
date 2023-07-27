@@ -12,7 +12,7 @@ const MiniEmptyState = () => {
           you haven't created any note yet
         </p>
         <span className="mx-auto mt-[10px]">
-          <CButton text={"Restore"} />
+          <CButton text={"Create a new note"} />
         </span>
       </div>
     </div>

@@ -13,6 +13,8 @@ import NotFound from "./components/common/notfound";
 import DashboardLayout from "./layouts/dashboardLayout";
 import SuspenseFallbackLoader from "./components/common/loader/SuspenseLoader";
 import CompleteSignup from "./pages/auth/completeSignup";
+import Folders from "./pages/dashboard/folders";
+import Folder from "./pages/dashboard/folders/folder";
 
 const SignUp = React.lazy(() => import("./pages/auth/signUp"));
 const SignIn = React.lazy(() => import("./pages/auth/signIn"));
@@ -62,8 +64,8 @@ const router = createBrowserRouter(
         <Route path={"trash"} element={<Trash />} />
         <Route path={"archives"} element={<ArchivedNotes />} />
         <Route path={"settings"} element={<Settings />} />
-        <Route path={"folders"} element={<div>Hello man</div>} />
-        <Route path={"folders/:id"} element={<div>particular folder</div>} />
+        <Route path={"folders"} element={<Folders />} />
+        <Route path={"folders/:id"} element={<Folder />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </>

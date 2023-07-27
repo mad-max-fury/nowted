@@ -1,7 +1,23 @@
 import React from "react";
+import NotePrev from "../../components/modules/dashboard/noteList/NotePrev";
+import MiniEmptyState from "../../components/modules/dashboard/categoryMaker/emptyState";
+import { useGrid } from "../../context/showGrid";
 
 const Trash = () => {
-  return <div>Trash</div>;
+  const { gridFlow } = useGrid();
+  return (
+    <div
+      className={`grid w-full ${
+        gridFlow ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"
+      } gap-2 pb-4 text-white h-fit `}
+    >
+      {Array(25)
+        .fill(0)
+        .map((x, i) => <NotePrev callback={() => null} />) || (
+        <MiniEmptyState />
+      )}
+    </div>
+  );
 };
 
 export default Trash;

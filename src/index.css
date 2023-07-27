@@ -11,11 +11,17 @@ body,
   width: 100%;
   font-family: "Source Sans 3", sans-serif;
 }
+.css-1dimb5e-singleValue {
+  color: white !important;
+}
+.react-select-3-listbox,
+.css-1nmdiq5-menu {
+  background-color: #333 !important;
+}
 
 @layer utilities {
   body {
     @apply bg-primary;
-    overflow-x: hidden;
     width: 100%;
   }
   .scrollbar::-webkit-scrollbar {
@@ -27,6 +33,9 @@ body,
   }
   .curvy-underline {
     position: relative;
+  }
+  .ql-toolbar.ql-snow {
+    z-index: 10 !important;
   }
 
   .curvy-underline::before,
@@ -56,7 +65,13 @@ body,
   .dialog::backdrop {
     animation: 0.4s ease fade;
   }
+  .text-shadow-lg {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
 
+  .text-shadow-md {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
   @keyframes slidein {
     from {
       transform: translate3d(0, 30px, 0);

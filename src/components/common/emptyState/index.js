@@ -3,7 +3,7 @@ import CButton from "../button";
 import { restore } from "../../../assets";
 const EmptyState = () => {
   return (
-    <div className="mx-auto flex h-screen w-full max-w-[790px] flex-col items-center justify-center bg-[#181818]">
+    <div className="mx-auto flex h-fit w-full max-w-[790px] flex-col items-center justify-center bg-[#181818]">
       <div className="flex flex-col items-center justify-center m-auto">
         <picture className="h-[80px] w-[80px]">
           <img src={restore} />
