@@ -33,6 +33,7 @@ const SearchInput = ({ close }) => {
           id="search"
           onFocus={handleFocus}
           onBlur={handleBlur}
+          autoComplete={"off"}
           placeholder="Search for a note..."
           className="text-gray-light w-[calc(100%_-_40px)] h-[60px] !bg-transparent border-0 text-sm font-normal outline-none text-[#f5f5f5]"
         />

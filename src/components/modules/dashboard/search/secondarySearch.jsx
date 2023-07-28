@@ -7,68 +7,60 @@ import Select from "react-select";
 import { styles } from "../../../../utils/configs";
 import { useLocation } from "react-router-dom";
 import { useGrid } from "../../../../context/showGrid";
-const SecondarySearch = ({ handleOpenModal }) => {
+const SecondarySearch = ({ handleOpenModal, secHeading, heading }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const options = [
     { value: "chocolate", label: "Chocolate" },
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
-  const loc = useLocation();
-  const secHeading = loc.pathname.split("/")[3];
-  const result =
-    loc.pathname.split("/")[2] === undefined
-      ? "Recents"
-      : loc.pathname.split("/")[2];
-  const heading = result.charAt(0).toUpperCase() + result.slice(1);
+
   const handleChange = (selectedOption) => {
     return setSelectedOption(selectedOption);
   };
 
   return (
     <>
-      {heading === "Settings" ? null : (
-        <section className="flex flex-col w-full" style={{}}>
-          <div className="flex items-center justify-between w-full">
-            <h1 className="text-[1.5rem] font-bold text-white ">
-              {heading}{" "}
-              {secHeading && (
-                <span className="font-medium text-[#808080] text-[1rem]">
-                  ({secHeading})
-                </span>
-              )}
-            </h1>
-            <span className="flex gap-4">
-              <ShuffleDisplayTypeListOrGrid />
-              <NewNoteCta handleOpenModal={handleOpenModal} />
-            </span>
-          </div>
-          <div className="mt-2 border-b border-solid border-[rgba(255,_255,_255,_0.1)] w-full pb-2">
-            <form className="z-10 flex w-full items-center gap-3 bg-transparent text-[#808080] outline-none">
-              <span className="text-[inherit] cursor-pointer transition-all duration-[0.2s] hover:text-white">
-                <BsSearch size={20} />
+      <section className="flex flex-col w-full" style={{}}>
+        <div className="flex items-center justify-between w-full">
+          <h1 className="text-[1.5rem] font-bold text-white ">
+            {heading}{" "}
+            {secHeading && (
+              <span className="font-medium text-[#808080] text-[1rem]">
+                ({secHeading})
               </span>
-              <input
-                type="text"
-                name="search"
-                id="search"
-                placeholder="Search for a note..."
-                className="text-gray-light w-[calc(100%_-_40px)] h-[60px] focus-within:placeholder:text-[rgba(255,255,255,0.1)] !bg-transparent border-0 text-sm font-normal outline-none text-[#f5f5f5]"
-                autoComplete="off"
-                style={{ backgroundColor: "transparent" }}
+            )}
+          </h1>
+          <span className="flex gap-4">
+            <ShuffleDisplayTypeListOrGrid />
+            <NewNoteCta handleOpenModal={handleOpenModal} />
+          </span>
+        </div>
+        <div className="mt-2 border-b border-solid border-[rgba(255,_255,_255,_0.1)] w-full pb-2">
+          <form className="z-10 flex w-full items-center gap-3 bg-transparent text-[#808080] outline-none">
+            <span className="text-[inherit] cursor-pointer transition-all duration-[0.2s] hover:text-white">
+              <BsSearch size={20} />
+            </span>
+            <input
+              type="text"
+              name="search"
+              id="search"
+              placeholder="Search for a note..."
+              className="text-gray-light w-[calc(100%_-_40px)] h-[60px] focus-within:placeholder:text-[rgba(255,255,255,0.1)] !bg-transparent border-0 text-sm font-normal outline-none text-[#f5f5f5]"
+              autoComplete="off"
+              style={{ backgroundColor: "transparent" }}
+            />
+            <div className="w-[25%] h-full cursor-pointer">
+              <Select
+                value={selectedOption}
+                onChange={handleChange}
+                options={options}
+                styles={styles}
               />
-              <div className="w-[25%] h-full cursor-pointer">
-                <Select
-                  value={selectedOption}
-                  onChange={handleChange}
-                  options={options}
-                  styles={styles}
-                />
-              </div>
-            </form>
-          </div>
-        </section>
-      )}
+            </div>
+          </form>
+        </div>
+      </section>
     </>
   );
 };
