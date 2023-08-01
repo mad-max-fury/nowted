@@ -8,7 +8,7 @@ const FormInput = ({ type, name, label, placeholder }) => {
     <div
       className={`relative flex flex-col items-start justify-start w-full ${
         formState.errors[name] ? "mb-8" : "mb-4"
-      } h-fit bg-primary isolate`}
+      } h-fit  bg-inherit isolate`}
     >
       <label htmlFor={name} className="text-white">
         {label}
@@ -19,16 +19,16 @@ const FormInput = ({ type, name, label, placeholder }) => {
         name={name}
         placeholder={placeholder}
         {...register(name)}
-        className={`w-full p-2 mt-1 z-1  bg-primary ring-1 outline-none rounded  transition-all duration-[0.3s] ease-out  ${
+        className={`w-full p-2 mt-1 z-1   bg-inherit ring-1 outline-none rounded  transition-all duration-[0.3s] ease-out  ${
           formState.errors[name]
             ? " ring-red-500 text-red-500"
-            : "ring-white text-white"
+            : "ring-[#f5f5f5] text-[#f5f5f5]"
         }`}
       />
 
       {/* Adjusted class name and condition */}
       <span
-        className={`text-red-500 bg-primary absolute w-full left-0 transition-all ease-in-out duration-[0.3s] ${
+        className={`text-red-500 bg-primary bg-inherit absolute w-full left-0 transition-all ease-in-out duration-[0.3s] ${
           formState.errors[name]
             ? "top-[calc(100%_+_0.3rem)]"
             : "top-[50%]  z-[-1]"

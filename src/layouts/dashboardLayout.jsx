@@ -1,9 +1,10 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import SideBar from "../components/modules/dashboard/sideBar";
 import GetStarted from "../components/modules/dashboard/getStarted";
 import SecondarySearch from "../components/modules/dashboard/search/secondarySearch";
 const DashboardLayout = () => {
+  const [sidebarActive, setSidebarActive] = useState(false);
   const createNoteRef = useRef({});
   const loc = useLocation();
   const secHeading = loc.pathname.split("/")[3];
@@ -20,19 +21,23 @@ const DashboardLayout = () => {
       <SideBar
         handleOpenModal={handleOpenModal}
         createNoteRef={createNoteRef}
+        sideBarActive={sidebarActive}
+        setSideBarActive={() => setSidebarActive(!sidebarActive)}
       />
 
-      <div className=" w-full  max-w-[768px] mx-auto ">
+      <div className=" w-full  max-w-[768px] mx-auto px-4 md:px-0 ">
         {heading !== "Settings" && (
           <GetStarted handleOpenModal={handleOpenModal} />
         )}
-        <div className="w-full min-h-screen mt-[80px]">
+        <div className="w-full min-h-screen  mt-[80px]">
           {heading !== "Settings" && (
             <div className="sticky top-0 w-full pb-8 pt-4 h-[160px]  bg-primary">
               <SecondarySearch
                 heading={heading}
                 secHeading={secHeading}
                 handleOpenModal={handleOpenModal}
+                sideBarActive={sidebarActive}
+                setSideBarActive={() => setSidebarActive(!sidebarActive)}
               />
             </div>
           )}

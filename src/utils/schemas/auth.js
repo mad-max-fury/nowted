@@ -140,4 +140,60 @@ Auth.authResetPassword = yup.object().shape({
     .required("Password is required")
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
+Auth.changePassword = yup.object().shape({
+  oldpassword: yup
+    .string()
+    .required("Password is required")
+    .test(
+      "uppercase",
+      "Password must contain at least one uppercase letter",
+      function (value) {
+        return /[A-Z]/.test(value);
+      }
+    )
+    .test(
+      "number",
+      "Password must contain at least one number",
+      function (value) {
+        return /\d/.test(value);
+      }
+    )
+    .test(
+      "special",
+      "Password must contain at least one special character (@$!%*?&)",
+      function (value) {
+        return /[@$!%*?&]/.test(value);
+      }
+    )
+    .min(6, "Password must be at least 8 characters long"),
+  password: yup
+    .string()
+    .required("Password is required")
+    .test(
+      "uppercase",
+      "Password must contain at least one uppercase letter",
+      function (value) {
+        return /[A-Z]/.test(value);
+      }
+    )
+    .test(
+      "number",
+      "Password must contain at least one number",
+      function (value) {
+        return /\d/.test(value);
+      }
+    )
+    .test(
+      "special",
+      "Password must contain at least one special character (@$!%*?&)",
+      function (value) {
+        return /[@$!%*?&]/.test(value);
+      }
+    )
+    .min(6, "Password must be at least 8 characters long"),
+  confirmPassword: yup
+    .string()
+    .required("Password is required")
+    .oneOf([yup.ref("password"), null], "Passwords must match"),
+});
 export default Auth;

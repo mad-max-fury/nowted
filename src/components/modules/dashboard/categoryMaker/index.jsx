@@ -1,6 +1,6 @@
 import React from "react";
 import MiniEmptyState from "./emptyState";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const CategoryMaker = ({ category, CategoryIcon, quickNavigations = [] }) => {
   return (

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import { IoFolderOutline } from "react-icons/io5";
 
 const FolderPrev = ({ active, callback }) => {

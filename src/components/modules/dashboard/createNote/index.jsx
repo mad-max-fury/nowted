@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, forwardRef, useState } from "react";
+import React, { forwardRef, useState } from "react";
 import InputField from "../../../common/input";
 import EditNote from "../EditNote";
 import useModalRef from "../../../../hooks/useModalRef";

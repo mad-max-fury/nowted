@@ -17,7 +17,7 @@ function App() {
               <Loader />
               <Router />
             </SnackbarProvider>
-            <ReactQueryDevtools />
+            <ReactQueryDevtools position="top-right" />
           </QueryClientProvider>
         </div>
       </GridContextProvider>

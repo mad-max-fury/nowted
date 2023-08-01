@@ -1,13 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { BiSolidGridAlt } from "react-icons/bi";
 import { IoMenuSharp } from "react-icons/io5";
 import { AiOutlinePlus } from "react-icons/ai";
 import { BsSearch } from "react-icons/bs";
 import Select from "react-select";
 import { styles } from "../../../../utils/configs";
-import { useLocation } from "react-router-dom";
 import { useGrid } from "../../../../context/showGrid";
-const SecondarySearch = ({ handleOpenModal, secHeading, heading }) => {
+const SecondarySearch = ({
+  handleOpenModal,
+  secHeading,
+  heading,
+  sideBarActive,
+  setSideBarActive,
+}) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const options = [
     { value: "chocolate", label: "Chocolate" },
@@ -21,16 +26,29 @@ const SecondarySearch = ({ handleOpenModal, secHeading, heading }) => {
 
   return (
     <>
-      <section className="flex flex-col w-full" style={{}}>
+      <section className="flex flex-col w-full">
         <div className="flex items-center justify-between w-full">
-          <h1 className="text-[1.5rem] font-bold text-white ">
-            {heading}{" "}
-            {secHeading && (
-              <span className="font-medium text-[#808080] text-[1rem]">
-                ({secHeading})
-              </span>
-            )}
-          </h1>
+          <div className="flex gap-4 items-center">
+            <button
+              type="button"
+              onClick={setSideBarActive}
+              className={`h-[25px] w-[36px] bg-[rgba(255,255,255,0.1)] flex md:hidden items-center ml-1 ${
+                !sideBarActive
+                  ? "text-[rgba(255,255,255,1)]"
+                  : "text-[rgba(255,255,255,0.5)]"
+              } justify-center`}
+            >
+              <IoMenuSharp size={"22px"} className="m-auto" />
+            </button>
+            <h1 className="text-[1.5rem] font-bold text-white ">
+              {heading}
+              {secHeading && (
+                <span className="font-medium text-[#808080] text-[1rem]">
+                  ({secHeading})
+                </span>
+              )}
+            </h1>
+          </div>
           <span className="flex gap-4">
             <ShuffleDisplayTypeListOrGrid />
             <NewNoteCta handleOpenModal={handleOpenModal} />
@@ -78,7 +96,7 @@ const ShuffleDisplayTypeListOrGrid = () => {
       <button
         type="button"
         onClick={turnOnGrid}
-        className={`h-[25px] w-[36px] flex items-center mr-1 ${
+        className={`h-[25px] w-[36px] md:flex hidden  items-center mr-1 ${
           gridFlow
             ? "text-[rgba(255,255,255,1)]"
             : "text-[rgba(255,255,255,0.5)]"
