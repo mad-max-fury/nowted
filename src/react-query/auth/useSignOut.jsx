@@ -4,6 +4,8 @@ import { QUERY_KEY } from "../../constants/queryKeys";
 import { ResponseError } from "../../utils/Errors/ResponseError";
 import nowtedAxiosInstance from "../nowtedAxiosInstance";
 import { getUser } from "./user.localstore";
+import { useNavigate } from "react-router-dom";
+import * as userLocalStorage from "./user.localstore";
 
 async function signOut() {
   const user = getUser();
@@ -22,11 +24,14 @@ async function signOut() {
 
 export function useSignOut() {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
   const signOutQuery = useQuery([QUERY_KEY.signOut], signOut, {
     onSuccess: (data) => {
       queryClient.setQueryData([QUERY_KEY.user], null);
+      userLocalStorage.removeUser();
+      navigate("/");
       enqueueSnackbar("See you later!", {
         variant: "success",
       });
