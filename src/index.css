@@ -11,15 +11,44 @@ body,
   width: 100%;
   font-family: "Source Sans 3", sans-serif;
 }
+.css-1dimb5e-singleValue {
+  color: white !important;
+}
+.react-select-3-listbox,
+.css-1nmdiq5-menu {
+  background-color: #333 !important;
+}
 
 @layer utilities {
   body {
     @apply bg-primary;
-    overflow-x: hidden;
     width: 100%;
   }
+  body::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(46, 45, 45, 0.8);
+  }
+
+  body::-webkit-scrollbar-track {
+    background-color: rgba(20, 20, 20, 1);
+    border-radius: 4px;
+  }
+
   .scrollbar::-webkit-scrollbar {
     display: none;
+  }
+  .clippy-profile {
+    clip-path: polygon(0 0, 100% 0, 100% 47%, 100% 100%, 0 100%, 25% 49%);
+    transition: all 0.3s ease-in-out;
+  }
+  .profile-photo:hover .clippy-profile {
+    clip-path: polygon(0 0, 100% 0, 100% 47%, 100% 100%, 0 100%, 0 49%);
+    box-shadow: 0px 0px 8px #333;
+    scale: 1.1;
   }
   .p-bg {
     background-color: #1c1c1c;
@@ -27,6 +56,9 @@ body,
   }
   .curvy-underline {
     position: relative;
+  }
+  .ql-toolbar.ql-snow {
+    z-index: 10 !important;
   }
 
   .curvy-underline::before,
@@ -56,7 +88,13 @@ body,
   .dialog::backdrop {
     animation: 0.4s ease fade;
   }
+  .text-shadow-lg {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
 
+  .text-shadow-md {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  }
   @keyframes slidein {
     from {
       transform: translate3d(0, 30px, 0);

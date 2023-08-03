@@ -11,7 +11,7 @@ export const validateInput = (value, label, type) => {
       return "Password must include at least one uppercase letter";
     }
     if (!/[!@#$%^&*]/.test(value)) {
-      return "Password must include at least one special character";
+      return "Password must include at least one special character(`!@#$%^&*`)";
     }
   }
 
@@ -28,3 +28,15 @@ export const validateInput = (value, label, type) => {
 
   return true; // Return true if validation passes
 };
+
+export function formatObject(obj = {}) {
+  if (!obj) return;
+  const { _id, __v, profileIcon, createdAt, ...rest } = obj;
+  const formattedData = [];
+
+  for (const key in rest) {
+    formattedData.push({ key: key, value: rest[key] });
+  }
+
+  return formattedData;
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import MiniEmptyState from "./emptyState";
+import { Link, useLocation } from "react-router-dom";
 
 const CategoryMaker = ({ category, CategoryIcon, quickNavigations = [] }) => {
   return (
@@ -18,7 +19,7 @@ const CategoryMaker = ({ category, CategoryIcon, quickNavigations = [] }) => {
         )}
       </div>
       {quickNavigations.length > 0 ? (
-        <ul className="flex h-fit w-full flex-col ">
+        <ul className="flex flex-col w-full h-fit ">
           {quickNavigations.map((item, i) => (
             <NavTab
               key={i}
@@ -37,29 +38,33 @@ const CategoryMaker = ({ category, CategoryIcon, quickNavigations = [] }) => {
 
 export default CategoryMaker;
 
-const NavTab = ({ Icon, heading, active, categoryName }) => {
+const NavTab = ({ Icon, heading, categoryName, path }) => {
+  const { pathname } = useLocation();
+  const active =
+    path === "/dashboard"
+      ? path === pathname
+      : pathname
+          .replace("/dashboard/", "/")
+          .startsWith(path.replace("/dashboard/", "/"));
   return (
     <li
-      className={`cursor-pointer px-[20px] py-[12px]  ${
-        active && categoryName === "Recents"
-          ? " bg-tert text-white"
-          : "text-[rgba(255,_255,_255,_0.6)]"
-      } ${
-        active && categoryName === "Folders"
+      className={`cursor-pointer transition-all duration-500 ease-in-out ${
+        active && categoryName === ""
+          ? "bg-tert text-white"
+          : active && categoryName === "Folders"
           ? "bg-[rgba(255,_255,_255,_0.03)] text-white"
-          : "text-[rgba(255,_255,_255,_0.6)]"
-      } ${
-        active && categoryName === "More"
-          ? "bg-[rgba(255,_255,_255,_0.03)] text-white"
-          : "text-[rgba(255,_255,_255,_0.6)]"
+          : "text-[rgba(255,_255,_255,_0.6)] hover:text-white hover:bg-[rgba(255,_255,_255,_0.03)]"
       }`}
     >
-      <div className="flex h-fit w-full gap-3 text-base font-semibold ">
+      <Link
+        to={path}
+        className="flex w-full gap-3 px-[20px] py-[12px] text-base font-semibold h-fit "
+      >
         <span>
           <Icon size={25} />
         </span>
         <h3>{heading}</h3>
-      </div>
+      </Link>
     </li>
   );
 };

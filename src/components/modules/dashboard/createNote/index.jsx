@@ -1,32 +1,11 @@
-import React, { useEffect, useRef, forwardRef, useState } from "react";
-import { IoIosCloseCircleOutline } from "react-icons/io";
+import React, { forwardRef, useState } from "react";
 import InputField from "../../../common/input";
 import EditNote from "../EditNote";
+import useModalRef from "../../../../hooks/useModalRef";
+import { IoCloseOutline } from "react-icons/io5";
 const CreateNote = forwardRef((_, ref) => {
   const [saving, setSaving] = useState(false);
-  const editNoteRef = useRef();
-
-  useEffect(() => {
-    const showModal = () => {
-      editNoteRef.current.showModal();
-    };
-
-    const closeModal = () => {
-      editNoteRef.current.close();
-    };
-
-    if (ref && typeof ref === "object") {
-      ref.current = {
-        openModal: showModal,
-        closeModal: closeModal,
-      };
-    }
-
-    return () => {
-      closeModal();
-    };
-  }, [ref]);
-
+  const editNoteRef = useModalRef(ref);
   const handleSave = async () => {
     setSaving(true);
     setTimeout(() => {
@@ -34,7 +13,6 @@ const CreateNote = forwardRef((_, ref) => {
       ref.current.closeModal();
     }, 2000); // Delay for 2000 milliseconds (2 seconds)
   };
-
   const handleClose = () => {
     ref.current.closeModal();
   };
@@ -58,9 +36,9 @@ const CreateNote = forwardRef((_, ref) => {
             </button>
             <button
               onClick={handleClose}
-              className="text-[rgba(255,_255,_255,_0.6)] transition-all duration-[0.2s] hover:text-white"
+              className="text-[rgba(255,_255,_255,_0.6)] p-2 shadow-lg bg-[rgba(255,255,255,0.1)] rounded-md  transition-all duration-[0.2s] hover:text-white"
             >
-              <IoIosCloseCircleOutline size={35} />
+              <IoCloseOutline size={25} />
             </button>
           </div>
         </div>
