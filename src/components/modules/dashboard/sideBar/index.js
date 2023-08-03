@@ -12,7 +12,7 @@ import CreateNote from "../createNote";
 import SearchInput from "../search";
 import { useSignOut } from "../../../../react-query/auth/useSignOut";
 import useMediaQuery from "../../../../hooks/useMediaQuery";
-import { IoClose, IoMenuSharp } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 
 const SideBar = ({
   handleOpenModal,

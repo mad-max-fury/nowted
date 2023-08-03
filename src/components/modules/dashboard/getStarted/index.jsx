@@ -9,33 +9,35 @@ const GetStarted = ({ handleOpenModal }) => {
       <h1 className="text-white text-[clamp(1rem,4vw,1.5rem)] font-bold">
         Get Started
       </h1>
-      <div className="flex gap-4">
-        <GetStartedComponent
-          gradientColorFrom="from-[#3ca0fd]"
-          gradientColorTo="to-[#b765fa]"
-          heading={"Create New Note"}
-          subHeading={"don't keep it on your mind"}
-          showSnowEffect
-          fn={handleOpenModal}
-        >
-          <HiSparkles size={24} />
-        </GetStartedComponent>
-        <GetStartedComponent
-          gradientColorFrom="from-[#8741f7]"
-          gradientColorTo="to-[#fc7a7a]"
-          heading={"Import Note"}
-          subHeading={"import your local notes"}
-        >
-          <TbTableImport size={24} />
-        </GetStartedComponent>
-        <GetStartedComponent
-          gradientColorFrom="from-[#fa9fc6]"
-          gradientColorTo="to-[#f7b51e]"
-          heading={"Turn on tune"}
-          subHeading={"turn on tune compassion"}
-        >
-          <FaPlay size={24} />
-        </GetStartedComponent>
+      <div className="w-full overflow-auto scrollbar">
+        <div className="flex w-[768px] gap-4 h-fit py-4 px-4 md:px-0">
+          <GetStartedComponent
+            gradientColorFrom="from-[#3ca0fd]"
+            gradientColorTo="to-[#b765fa]"
+            heading={"Create New Note"}
+            subHeading={"don't keep it on your mind"}
+            showSnowEffect
+            fn={handleOpenModal}
+          >
+            <HiSparkles size={24} />
+          </GetStartedComponent>
+          <GetStartedComponent
+            gradientColorFrom="from-[#8741f7]"
+            gradientColorTo="to-[#fc7a7a]"
+            heading={"Import Note"}
+            subHeading={"import your local notes"}
+          >
+            <TbTableImport size={24} />
+          </GetStartedComponent>
+          <GetStartedComponent
+            gradientColorFrom="from-[#fa9fc6]"
+            gradientColorTo="to-[#f7b51e]"
+            heading={"Turn on tune"}
+            subHeading={"turn on tune compassion"}
+          >
+            <FaPlay size={24} />
+          </GetStartedComponent>
+        </div>
       </div>
     </div>
   );

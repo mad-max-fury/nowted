@@ -11,8 +11,11 @@ import ProfileUpload from "../../components/modules/dashboard/profileUpload";
 import ChangePassword from "../../components/modules/dashboard/changePassword";
 import UpdateInfo from "../../components/modules/dashboard/updateInfo";
 import ConfirmationModal from "../../components/common/modals/confirmationModal";
+import { useGetMe } from "../../react-query/settings/useGetUserProfile";
+import { formatObject } from "../../utils/helpers";
 
 const Settings = () => {
+  const { data } = useGetMe();
   const [showEditActions, setShowEditActions] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState({
     upload: false,
@@ -34,13 +37,15 @@ const Settings = () => {
   const handleCancelAction = () => {
     return handleToggleSidebar("delete");
   };
+  const formattedResult = formatObject(data?.me);
+
   return (
     <>
       <div className="w-full h-fit">
         <ProfilePhoto />
         <div className="flex items-center justify-between mt-6 mb-8">
           <h2 className="text-3xl font-semibold text-white ">My Profile</h2>
-          <div className="relative z-50 h-fit isolate w-fit">
+          <div className="relative z-[20] h-fit isolate w-fit">
             <button
               onClick={() => setShowEditActions(!showEditActions)}
               type="button"
@@ -52,29 +57,33 @@ const Settings = () => {
               </span>
               <span> Edit Profile</span>
             </button>
-            <span className="absolute bottom-[1rem] left-[100%] ">
+            <span className="absolute bottom-[1rem] isolate z-10 left-[100%] ">
               {showEditActions && (
                 <EditActionWidgetCreator
                   actionList={[
                     {
                       label: "Upload  Photo",
                       Icon: FiShare,
+                      autoClose: true,
                       action: () => handleToggleSidebar("upload"),
                     },
                     {
                       label: "Change Password",
                       Icon: MdOutlinePassword,
+                      autoClose: true,
                       action: () => handleToggleSidebar("changePassword"),
                     },
                     {
                       label: "Update Details",
                       Icon: BiDetail,
+                      autoClose: true,
                       action: () => handleToggleSidebar("updateInfo"),
                     },
                     {
                       label: "Delete Account",
                       Icon: MdDelete,
                       type: true,
+                      autoClose: true,
                       action: () => handleToggleSidebar("delete"),
                     },
                   ]}
@@ -85,13 +94,9 @@ const Settings = () => {
           </div>
         </div>
         <div className="flex flex-col w-full gap-4 pb-6">
-          <InfoInput label={"First name"} value={"Chris"} />
-          <InfoInput label={"middle name"} value={"anthony"} />
-          <InfoInput label={"last name"} value={"Ndubuisi"} />
-          <InfoInput label={"Age"} value={"21"} />
-          <InfoInput label={"Gender"} value={"Male"} />
-          <InfoInput label={"Username"} value={"endeecodes"} />
-          <InfoInput label={"Email"} value={"endeecodes@gmail.com"} />
+          {formattedResult?.map((obj, index) => (
+            <InfoInput label={obj?.key} value={obj?.value} key={index} />
+          ))}
         </div>
       </div>
       {isSidebarOpen.upload && (
@@ -100,7 +105,7 @@ const Settings = () => {
           isOpen={isSidebarOpen.upload}
           onClose={() => handleToggleSidebar("upload")}
         >
-          <ProfileUpload />
+          <ProfileUpload onClose={() => handleToggleSidebar("upload")} />
         </SidebarModalWrapper>
       )}
       {isSidebarOpen.changePassword && (
@@ -109,7 +114,9 @@ const Settings = () => {
           isOpen={isSidebarOpen.changePassword}
           onClose={() => handleToggleSidebar("changePassword")}
         >
-          <ChangePassword />
+          <ChangePassword
+            onClose={() => handleToggleSidebar("changePassword")}
+          />
         </SidebarModalWrapper>
       )}
       {isSidebarOpen.updateInfo && (
@@ -118,7 +125,7 @@ const Settings = () => {
           isOpen={isSidebarOpen.updateInfo}
           onClose={() => handleToggleSidebar("updateInfo")}
         >
-          <UpdateInfo />
+          <UpdateInfo onClose={() => handleToggleSidebar("updateInfo")} />
         </SidebarModalWrapper>
       )}
       {isSidebarOpen.delete && (
@@ -136,6 +143,7 @@ const Settings = () => {
 export default Settings;
 
 const ProfilePhoto = () => {
+  const { data } = useGetMe();
   return (
     <div className="w-full overflow-hidden profile-photo h-[250px] bg-gradient-to-br flex relative justify-between from-[#3ca0fd] to-[#b765fa]">
       <div className="w-full"></div>
@@ -144,7 +152,10 @@ const ProfilePhoto = () => {
       </div>
       <div className="h-full bg-white clippy-profile aspect-square">
         <img
-          src="https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg"
+          src={
+            data?.me?.profileIcon ||
+            "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg"
+          }
           alt="profile photo "
           className="object-cover h-full aspect-square"
         />

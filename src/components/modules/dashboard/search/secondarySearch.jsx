@@ -64,11 +64,11 @@ const SecondarySearch = ({
               name="search"
               id="search"
               placeholder="Search for a note..."
-              className="text-gray-light w-[calc(100%_-_40px)] h-[60px] focus-within:placeholder:text-[rgba(255,255,255,0.1)] !bg-transparent border-0 text-sm font-normal outline-none text-[#f5f5f5]"
+              className="text-gray-light w-[calc(100%_-_180px)] h-[60px] focus-within:placeholder:text-[rgba(255,255,255,0.1)] !bg-transparent border-0 text-sm font-normal outline-none text-[#f5f5f5]"
               autoComplete="off"
               style={{ backgroundColor: "transparent" }}
             />
-            <div className="w-[25%] h-full cursor-pointer">
+            <div className="w-[180px] h-full cursor-pointer">
               <Select
                 value={selectedOption}
                 onChange={handleChange}
@@ -87,7 +87,7 @@ export default SecondarySearch;
 const ShuffleDisplayTypeListOrGrid = () => {
   const { gridFlow, turnOfGrid, turnOnGrid } = useGrid();
   return (
-    <div className="flex px-2 h-[35px] items-center relative justify-between bg-[rgba(255,255,255,0.1)] rounded-md">
+    <div className="md:flex px-2 h-[35px] items-center relative justify-between bg-[rgba(255,255,255,0.1)] hidden rounded-md">
       <div
         className={`absolute h-[25px] rounded-md my-auto w-[36px] transition-all duration-[0.3s] ease-in-out ${
           gridFlow ? " right-[calc(50%_+_4px)]" : "right-[calc(0%_+_8px)]"

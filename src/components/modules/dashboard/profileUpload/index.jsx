@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import CButton from "../../../common/button";
+import { useSnackbar } from "notistack";
+import { useUploadPhoto } from "../../../../react-query/settings/useUploadPhoto";
+import { useGetMe } from "../../../../react-query/settings/useGetUserProfile";
 
-const ProfileUpload = () => {
+const ProfileUpload = ({ onClose }) => {
+  const { data } = useGetMe();
+  const uploadPhotoMutation = useUploadPhoto();
+  const { enqueueSnackbar } = useSnackbar();
   const [selectedFile, setSelectedFile] = useState(null);
   const [previewImage, setPreviewImage] = useState(
-    "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg"
+    data?.me?.profileIcon ||
+      "https://media.sproutsocial.com/uploads/2022/06/profile-picture.jpeg"
   );
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
 
-    if (file) {
+    if (
+      file.type.startsWith("image/png") ||
+      file.type.startsWith("image/jpeg")
+    ) {
       setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -18,19 +28,23 @@ const ProfileUpload = () => {
       };
       reader.readAsDataURL(file);
     } else {
-      setSelectedFile(null);
-      setPreviewImage(null);
+      return enqueueSnackbar("Unsupported file formats, use Jpeg or png", {
+        variant: "error",
+      });
     }
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
     if (selectedFile) {
-      console.log("File Name:", selectedFile.name);
-      console.log("File Size:", selectedFile.size);
-      console.log("File Type:", selectedFile.type);
+      try {
+        // Call the uploadPhotoMutation function with the selected file
+        await uploadPhotoMutation.mutateAsync({ image: selectedFile });
+        onClose();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
-
   return (
     <div className="w-full max-w-md mx-auto  py-6">
       {previewImage && (
@@ -55,12 +69,16 @@ const ProfileUpload = () => {
       </label>
       {selectedFile && (
         <div className="flex gap-4 ">
-          <CButton type={"button"} callback={handleUpload} text={"Upload"} />
+          <CButton
+            type={uploadPhotoMutation.isLoading ? "Uploading..." : "button"}
+            callback={uploadPhotoMutation.isLoading ? null : handleUpload}
+            text={"Upload"}
+          />
           <button
-            onClick={handleUpload}
+            onClick={uploadPhotoMutation.isLoading ? null : onClose}
             className="px-4 py-2 w-full bg-blue-500 text-white rounded hover:bg-blue-600"
           >
-            Cancel
+            {uploadPhotoMutation.isLoading ? "..." : "Cancel"}
           </button>
         </div>
       )}

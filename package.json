@@ -2,6 +2,7 @@
   "name": "notelyfrontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://nowted-api.onrender.com",
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
     "@tanstack/react-query": "^4.29.25",

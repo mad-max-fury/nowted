@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { QUERY_KEY } from "../../constants/queryKeys";
 import { ResponseError } from "../../utils/Errors/ResponseError";
 import nowtedAxiosInstance from "../nowtedAxiosInstance";
+import * as userLocalStorage from "./user.localstore";
 
 async function signIn(creds) {
   const response = await nowtedAxiosInstance.post("users/login", creds);
@@ -22,13 +23,14 @@ export function useSignIn() {
   const signInMutation = useMutation((creds) => signIn(creds), {
     onSuccess: (data) => {
       queryClient.setQueryData([QUERY_KEY.user], data);
-      console.log(data);
+      userLocalStorage.saveUser(data);
       navigate("/dashboard");
       enqueueSnackbar(data.message, {
         variant: "success",
       });
     },
     onError: (error) => {
+      userLocalStorage.removeUser();
       enqueueSnackbar(error.response.data.message, {
         variant: "error",
       });

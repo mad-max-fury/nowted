@@ -10,12 +10,16 @@ const SidebarModalWrapper = ({ isOpen, onClose, children, label }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-black bg-opacity-50 ${
+      className={`fixed inset-0 z-50 bg-black bg-opacity-50  w-full ${
         isOpen ? "block" : "hidden"
       }`}
       onClick={handleOverlayClick}
     >
-      <div className="fixed right-0 h-full w-64 bg-[#201f1f] shadow-lg transform transition-transform ease-in-out duration-300 translate-x-full sm:translate-x-0 sm:w-full sm:max-w-md p-6">
+      <div
+        className={`fixed right-0 h-full w-full bg-[#201f1f] shadow-lg transform transition-transform ease-in-out duration-300 ${
+          isOpen ? "translate-x-0 " : "translate-x-full"
+        } sm:max-w-md p-6`}
+      >
         <div className="flex items-center mb-8 justify-between w-full ">
           <h3 className="text-[clamp(15px,_5vw,_25px)] font-semibold text-white">
             {label}

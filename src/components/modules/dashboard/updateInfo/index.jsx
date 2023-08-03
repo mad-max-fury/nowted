@@ -1,18 +1,32 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import Auth from "../../../../utils/schemas/auth";
 import FormInput from "../../../common/input/FormInput";
+import { useGetMe } from "../../../../react-query/settings/useGetUserProfile";
+import SettingsSchemas from "../../../../utils/schemas/settings"; // Make sure to have
+import { useUpdateUserInfo } from "../../../../react-query/settings/useUpdateUserInfo";
 
-const UpdateInfo = () => {
+const UpdateInfo = ({ onClose }) => {
+  const { data } = useGetMe();
+  const updateUserInfoMutation = useUpdateUserInfo();
+
   const methods = useForm({
     mode: "onChange",
-    resolver: yupResolver(Auth.changePassword),
+    resolver: yupResolver(SettingsSchemas.updateUserInfo),
+    defaultValues: {
+      username: data?.me?.userName || "",
+      firstName: data?.me?.firstName || "dhdddg",
+      middleName: data?.me?.middleName || "dgdggd",
+      lastName: data?.me?.lastName || "errere",
+      age: data?.me?.age || 21,
+    },
   });
-  const onSubmit = (data) => {
-    if (typeof data.password === "string") {
-    }
+
+  const onSubmit = async (data) => {
+    await updateUserInfoMutation.mutateAsync(data);
+    onClose();
   };
+
   return (
     <FormProvider {...methods}>
       <form
@@ -44,17 +58,22 @@ const UpdateInfo = () => {
           placeholder="Ndubuisi"
         />
         <FormInput type="number" name="age" label="Age" placeholder="21" />
+
         <div className="w-full mt-6 h-fit">
           <button
             type={methods.formState.isValid ? "submit" : "button"}
-            disabled={!methods.formState.isValid}
+            disabled={
+              !methods.formState.isValid || updateUserInfoMutation.isLoading
+            }
             className={`rounded cursor-pointer ${
               !methods.formState.isValid
-                ? " bg-blue-600 opacity-25 hover:cursor-not-allowed"
-                : "bg-tert hover:scale-[1.01] "
+                ? "bg-blue-600 opacity-25 hover:cursor-not-allowed"
+                : "bg-tert hover:scale-[1.01]"
             } px-8 py-2 text-base leading-6 w-full text-white transition-all duration-[0.2s] `}
           >
-            Change Password
+            {updateUserInfoMutation.isLoading
+              ? "Updating..."
+              : "Update Information"}
           </button>
         </div>
       </form>

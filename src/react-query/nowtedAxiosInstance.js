@@ -1,22 +1,34 @@
 import axios from "axios";
+import { getUser } from "./auth/user.localstore";
 
-// Create an instance of Axios with custom configurations
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:3001/api/v1/", // Set the base URL for all requests
+  baseURL: "https://nowted-api.onrender.com/api/v1/",
   headers: {
-    "Content-Type": "application/json", // Set the default Content-Type header
-    // Add any other headers you need
+    "Content-Type": "application/json",
   },
 });
 
-// Optionally, you can intercept requests or responses and modify them
+// Function to update the Authorization header dynamically
+const updateAuthorizationHeader = () => {
+  const user = getUser();
+  const token = user?.data?.token;
+  if (token) {
+    axiosInstance.defaults.headers["Authorization"] = `Bearer ${token}`;
+  } else {
+    delete axiosInstance.defaults.headers["Authorization"];
+  }
+};
+
+// Call the updateAuthorizationHeader initially
+updateAuthorizationHeader();
+
+// Intercept requests and modify the headers
 axiosInstance.interceptors.request.use(
   (config) => {
-    // Modify the request config if needed
+    updateAuthorizationHeader(); // Call the updateAuthorizationHeader before each request
     return config;
   },
   (error) => {
-    // Handle request errors
     return Promise.reject(error);
   }
 );
